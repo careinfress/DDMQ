@@ -15,7 +15,7 @@ public class PullWorker {
 
     private static final String CPROXY_ADDRS = ConfigManager.getConfig().getPullConfig().getCproxyAddrs();
     private static final List<String> cproxyServers = Splitter.on(';').splitToList(CPROXY_ADDRS);
-    private static final List<MqPullService> pullServices = new ArrayList<>();
+    private static final List<MqPullService> pullServices = new ArrayList<MqPullService>();
 
     private static int threadNum = ConfigManager.getConfig().getPullConfig().getThreadNum();
     private static volatile PullWorker instance = null;

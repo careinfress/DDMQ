@@ -15,6 +15,7 @@ public class Constants {
     // META_BASE_ZK_PATH = /chronos/meta/test/group_0
     public static final String META_BASE_ZK_PATH = Joiner.on("/").join(zkConfig.getMetaPathPrefix(), chronosConfig.getClusterName(), chronosConfig.getGroupName());
     public static final String SEEK_TIMESTAMP_ZK_PATH = Joiner.on("/").join(META_BASE_ZK_PATH, zkConfig.getSeekTimestampProp());
+    // OFFSET_ZK_PATH = /chronos/meta/test/group_0/offsets
     public static final String OFFSET_ZK_PATH = Joiner.on("/").join(META_BASE_ZK_PATH, zkConfig.getOffsetsProp());
 
     public static final String MASTER_PATH = Joiner.on("/").join(zkConfig.getMasterPathPrefix(), chronosConfig.getClusterName(), chronosConfig.getGroupName());

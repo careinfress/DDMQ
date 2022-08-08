@@ -32,18 +32,22 @@ public class MqConsumeStatService {
         carreraConfig.setRetryInterval(pullConfig.getRetryIntervalMs());
         carreraConfig.setTimeout(pullConfig.getTimeoutMs());
         carreraConfig.setMaxBatchSize(pullConfig.getMaxBatchSize());
+        // 创建 CarreraConsumer
         consumers = new CarreraConsumer(carreraConfig);
         LOGGER.info("init carrera consumer for consumer stats, carreraConfig:{}", carreraConfig);
     }
 
     public void uploadOffsetsToZk() {
         try {
+            // innerTopic = R_test_chronos_inner_0
             List<ConsumeStats> consumeStatsList = consumers.getConsumeStats(pullConfig.getInnerTopic());
             if (consumeStatsList != null) {
                 for (ConsumeStats consumeStats : consumeStatsList) {
                     if (pullConfig.getInnerGroup().equals(consumeStats.getGroup())) {
                         final Map<String, Long> map = consumeStats.getConsumeOffsets();
                         LOGGER.info("pull consumer stats for upload offsets to zk node, group:{}", consumeStats.getGroup());
+                        // zkPath = /chronos/meta/test/group_0/offsets
+                        // zkValue = consumeOffsets
                         ZkUtils.createOrUpdateValue(Constants.OFFSET_ZK_PATH, JsonUtils.toJsonString(map));
                     }
                 }

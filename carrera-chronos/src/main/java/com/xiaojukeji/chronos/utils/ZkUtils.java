@@ -75,7 +75,9 @@ public class ZkUtils {
             // configRootPath = /chronos/meta/test/group_0
             ZooKeeperConfigurationSource zkConfigSource = new ZooKeeperConfigurationSource(curatorClient, Constants.META_BASE_ZK_PATH);
             zkConfigSource.start();
+            // 创建 Archaius 默认数据源
             DynamicWatchedConfiguration zkDynamicConfig = new DynamicWatchedConfiguration(zkConfigSource);
+            // 安装进配置管理器
             ConfigurationManager.install(zkDynamicConfig);
         } catch (Exception e) {
             LOGGER.error("ZkUtils getCuratorClient err:{}", e.getMessage(), e);
