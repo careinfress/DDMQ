@@ -38,7 +38,7 @@ public class ChronosStartup {
     public void start() throws Exception {
         LOGGER.info("start to launch chronos...");
         final long start = System.currentTimeMillis();
-
+        // 注册关闭进程的钩子函数
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
@@ -67,7 +67,9 @@ public class ChronosStartup {
             System.exit(-1);
         }
 
-        /* init rocksdb */
+        /* init rocksdb
+        *  初始化 RocksDB 配置参数
+        *  */
         RDB.init(ConfigManager.getConfig().getDbConfig().getDbPath());
 
         /* init zk */

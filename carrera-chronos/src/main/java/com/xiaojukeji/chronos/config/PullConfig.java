@@ -3,6 +3,18 @@ package com.xiaojukeji.chronos.config;
 
 import com.xiaojukeji.carrera.config.ConfigurationValidator;
 
+/**
+ * pullConfig:
+ *   innerGroup : cg_R_test_chronos_inner_0_1
+ *   innerTopic : R_test_chronos_inner_0
+ *   cproxyAddrs : 127.0.0.1:9713 #分号分割
+ *   retryIntervalMs : 500
+ *   maxBatchSize : 200
+ *   timeoutMs : 3000
+ *   pullBatchItemNum : 10000
+ *   threadNum : 10
+ *   msgByteBaseLen : 1000
+ */
 public class PullConfig implements ConfigurationValidator {
 
     private String innerGroup;

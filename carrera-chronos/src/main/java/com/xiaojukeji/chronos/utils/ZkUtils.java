@@ -61,6 +61,7 @@ public class ZkUtils {
 
     public static void init() {
         try {
+            // 初始化 zk 客户端
             curatorClient = CuratorFrameworkFactory
                     .builder()
                     .connectString(zkConfig.getZkAddrs())
@@ -71,7 +72,7 @@ public class ZkUtils {
             if (curatorClient.getState() == CuratorFrameworkState.LATENT) {
                 curatorClient.start();
             }
-
+            // configRootPath = /chronos/meta/test/group_0
             ZooKeeperConfigurationSource zkConfigSource = new ZooKeeperConfigurationSource(curatorClient, Constants.META_BASE_ZK_PATH);
             zkConfigSource.start();
             DynamicWatchedConfiguration zkDynamicConfig = new DynamicWatchedConfiguration(zkConfigSource);

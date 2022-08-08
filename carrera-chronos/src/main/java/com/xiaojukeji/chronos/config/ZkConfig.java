@@ -3,6 +3,18 @@ package com.xiaojukeji.chronos.config;
 
 import com.xiaojukeji.carrera.config.ConfigurationValidator;
 
+/**
+ * zkConfig:
+ *   zkAddrs : "127.0.0.1:2181"
+ *   zkSessionTimeoutMs : 30000
+ *   masterPathPrefix : "/chronos/master"
+ *   metaPathPrefix : "/chronos/meta"
+ *   offsetsProp : "offsets"
+ *   seekTimestampProp : "seektimestamp"
+ *   baseSleepTimeMs : 10   #baseSleepTimeMs initial amount of time to wait between retries
+ *   maxSleepMs : 1000      #maxSleepMs max time in ms to sleep on each retry
+ *   maxRetries : 5         #maxRetries max number of times to retry
+ */
 public class ZkConfig implements ConfigurationValidator {
     private String zkAddrs;
     private int zkSessionTimeoutMs;

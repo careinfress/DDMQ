@@ -38,7 +38,7 @@ public class MetaService {
         }
         final long cost = System.currentTimeMillis() - start;
         LOGGER.info("succ load seekTimestamp, seekTimestamp:{}, cost:{}ms", seekTimestamp, cost);
-
+        // 1s 执行一次
         SCHEDULER.scheduleWithFixedDelay(() -> {
             // 如果是master则拉取并上报zk offset和seekOffset
             if (MasterElection.isMaster()) {
@@ -49,8 +49,10 @@ public class MetaService {
     }
 
     private static long loadSeekTimestampFromFile() {
+        // 读取这个路径的内容 /root/chronos-storage/seektimestamp
         String seekTimestampStr = FileIOUtils.readFile2String(dbConfig.getSeekTimestampPath());
         if (StringUtils.isBlank(seekTimestampStr)) {
+            // 获取当前时间
             final long initSeekTimestamp = TsUtils.genTS();
             boolean result = FileIOUtils.writeFileFromString(dbConfig.getSeekTimestampPath(), String.valueOf(initSeekTimestamp));
             if (result) {

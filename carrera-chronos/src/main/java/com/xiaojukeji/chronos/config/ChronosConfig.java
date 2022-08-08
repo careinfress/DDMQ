@@ -3,6 +3,17 @@ package com.xiaojukeji.chronos.config;
 
 import com.xiaojukeji.carrera.config.ConfigurationValidator;
 
+/**
+ * #cluster, for master election purpose
+ * clusterName : test
+ * #group in cluster, for master election purpose
+ * groupName : group_0
+ * pullOn : true
+ * pushOn : true
+ * deleteOn : true
+ * standAlone : false
+ * fakeSend : false
+ */
 public class ChronosConfig implements ConfigurationValidator {
     private String clusterName;
     private String groupName;

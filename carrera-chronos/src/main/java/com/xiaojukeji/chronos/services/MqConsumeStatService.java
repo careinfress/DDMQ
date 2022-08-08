@@ -65,6 +65,10 @@ public class MqConsumeStatService {
         LOGGER.info("MqConsumeStatService carrera consumer has stopped, cost:{}ms", System.currentTimeMillis() - start);
     }
 
+    /**
+     * 单例
+     * @return
+     */
     public static MqConsumeStatService getInstance() {
         if (instance == null) {
             synchronized (MqConsumeStatService.class) {
