@@ -49,7 +49,7 @@ import static com.xiaojukeji.carrera.thrift.producerProxyConstants.PRESSURE_TRAF
 
 public class MqPushService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MqPushService.class);
-
+    // BATCH_SEND_THREAD_NUM = 50
     private static final int BATCH_SEND_THREAD_NUM = ConfigManager.getConfig().getPushConfig().getBatchSendThreadNum();
     private static final int PUSH_QUEUE_SIZE = 100000;
     private static final int DEFAULT_CAPACITY = 100000;
@@ -59,7 +59,7 @@ public class MqPushService {
     private static final BlockingQueue<InternalPair> blockingQueue = new ArrayBlockingQueue<>(INTERNAL_PAIR_COUNT);
     private static volatile MqPushService instance = null;
     private static final ByteArrayOutputStream OUTPUT = new ByteArrayOutputStream();
-
+    // 发送者
     private CarreraProducer producer = null;
     private final Batcher batcher = Batcher.getInstance();
     private long round = 0;

@@ -30,6 +30,7 @@ public class ZkUtils {
     private static volatile CuratorFramework curatorClient;
 
     public static final DynamicStringProperty offsetsProperty =
+            // zkConfig.getOffsetsProp() = offsets
             DynamicPropertyFactory.getInstance().getStringProperty(zkConfig.getOffsetsProp(), null, new Runnable() {
                 @Override
                 public void run() {

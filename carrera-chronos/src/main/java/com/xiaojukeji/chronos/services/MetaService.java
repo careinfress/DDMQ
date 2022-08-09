@@ -91,6 +91,8 @@ public class MetaService {
 
     public static void uploadSeekTimestampToZk() {
         String seekTimestampStr = String.valueOf(MetaService.getSeekTimestamp());
+        // zkPath = /chronos/meta/test/group_0/offsets/seektimestamp
+        // zkValue = 当前时间戳
         ZkUtils.createOrUpdateValue(Constants.SEEK_TIMESTAMP_ZK_PATH, seekTimestampStr);
         LOGGER.debug("upload seekTimestamp to zk, seekTimestamp:{}", seekTimestampStr);
     }

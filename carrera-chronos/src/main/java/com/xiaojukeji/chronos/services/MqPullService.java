@@ -90,6 +90,7 @@ public class MqPullService implements Runnable {
                 carreraConsumer.fail(response.getContext(), offset);
             }
         }
+        // 实例关闭
         carreraConsumer.stop();
         cdl.countDown();
     }
@@ -103,6 +104,7 @@ public class MqPullService implements Runnable {
         failOffsets.clear();
 
         for (Message msg : response.getMessages()) {
+            // 如果是从节点
             if (MasterElection.isBackup()) {
                 final long zkQidOffset = MetaService.getZkQidOffsets().getOrDefault(response.getContext().getQid(), 0L);
                 if (msg.getOffset() > zkQidOffset) {
@@ -130,11 +132,11 @@ public class MqPullService implements Runnable {
 
                 final InternalKey internalKey = new InternalKey(bodyExt.getUniqDelayMsgId());
                 final InternalValue internalValue = new InternalValue(bodyExt);
-
+                // 添加延迟消息
                 if (bodyExt.getAction() == Actions.ADD.getValue()) {
                     addMessage(internalKey, internalValue, bodyExt.getAction());
                 }
-
+                // 取消延迟消息
                 if (bodyExt.getAction() == Actions.CANCEL.getValue()) {
                     cancelMessage(internalKey, bodyExt.getTopic(), bodyExt.getAction());
                 }
@@ -171,7 +173,6 @@ public class MqPullService implements Runnable {
 
             if (BATCHER.checkAndPutToDefaultCF(internalKey, internalValue.toJsonString(), internalValue.getTopic(), action)) {
                 MetricService.incWriteQps(internalValue.getTopic(), MetricMsgAction.ADD, MetricMsgType.DELAY, MetricMsgToOrFrom.DB);
-
                 return;
             }
 
@@ -179,7 +180,9 @@ public class MqPullService implements Runnable {
             MetricService.incWriteQps(internalValue.getTopic(), MetricMsgAction.ADD, MetricMsgType.DELAY, MetricMsgToOrFrom.SEND);
 
             putToBlockingQueue(internalKey, internalValue);
-        } else if (internalKey.getType() == MsgTypes.LOOP_DELAY.getValue()
+        }
+
+        else if (internalKey.getType() == MsgTypes.LOOP_DELAY.getValue()
                 || internalKey.getType() == MsgTypes.LOOP_EXPONENT_DELAY.getValue()) {
 
             MetricMsgType msgType = MetricMsgType.LOOP_DELAY;
@@ -205,9 +208,10 @@ public class MqPullService implements Runnable {
                 putToBlockingQueue(new InternalKey(internalKey), internalValue);
                 internalKey.nextUniqDelayMsgId();
             }
-        } else {
-            MetricService.incPullQps(internalValue.getTopic(), MetricMsgAction.ADD, MetricMsgType.UNKNOWN);
+        }
 
+        else {
+            MetricService.incPullQps(internalValue.getTopic(), MetricMsgAction.ADD, MetricMsgType.UNKNOWN);
             LOGGER.error("should not go here, invalid message type:{}, internalKey:{}", internalKey.getType(),
                     internalKey.genUniqDelayMsgId());
         }
