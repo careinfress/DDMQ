@@ -41,7 +41,7 @@ public class SimpleCarreraConsumer extends BaseCarreraConsumer<PullRequest, Pull
      */
     public SimpleCarreraConsumer(CarreraConfig config, String topic) {
         super(config, topic);
-
+        // simple
         this.type = CARRERA_CONSUMER_TYPE;
         resultMap = new HashMap<>();
     }

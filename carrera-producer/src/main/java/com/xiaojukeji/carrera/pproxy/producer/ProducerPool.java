@@ -155,6 +155,7 @@ public class ProducerPool {
             }
             //msg expired, from chronos
             if (isDelayTopic(topic)) {
+                // R_test_chronos_inner_0
                 topic = getConfigManager().getProxyConfig().getCarreraConfiguration().getDelay().getChronosInnerTopicPrefix() + "0";
             }
         }

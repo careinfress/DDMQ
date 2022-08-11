@@ -4,7 +4,17 @@ import com.xiaojukeji.carrera.config.ConfigurationValidator;
 
 import java.util.List;
 
-
+/**
+ * pushConfig:
+ *   pproxyAddrs :
+ *     - 127.0.0.1:9613
+ *   proxyTimeoutMs : 200
+ *   clientRetry : 2
+ *   clientTimeoutMs : 300
+ *   poolSize : 100
+ *   pushIntervalMs : 300
+ *   batchSendThreadNum : 50
+ */
 public class PushConfig implements ConfigurationValidator {
     private List<String> pproxyAddrs;
     private int proxyTimeoutMs;

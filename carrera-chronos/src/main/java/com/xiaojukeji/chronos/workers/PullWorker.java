@@ -12,11 +12,11 @@ import java.util.List;
 
 public class PullWorker {
     private static final Logger LOGGER = LoggerFactory.getLogger(PullWorker.class);
-
+    // cproxyAddrs : 127.0.0.1:9713 #分号分割
     private static final String CPROXY_ADDRS = ConfigManager.getConfig().getPullConfig().getCproxyAddrs();
     private static final List<String> cproxyServers = Splitter.on(';').splitToList(CPROXY_ADDRS);
     private static final List<MqPullService> pullServices = new ArrayList<MqPullService>();
-
+    // threadNum = 10
     private static int threadNum = ConfigManager.getConfig().getPullConfig().getThreadNum();
     private static volatile PullWorker instance = null;
 
@@ -33,6 +33,7 @@ public class PullWorker {
         }
 
         for (int i = 0; i < threadNum; i++) {
+            // 有多少个线程就创建多少个MqPullService
             MqPullService mqPullService = new MqPullService(cproxyServers.get(i % cproxyServers.size()), i);
             pullServices.add(mqPullService);
             mqPullService.start();

@@ -474,9 +474,23 @@ public class MqPushService {
         }
     }
 
+    /**
+     * 初始化发送者
+     */
     private void initProducer() {
         final long start = System.currentTimeMillis();
         final CarreraConfig config = new CarreraConfig();
+        /**
+         * pushConfig:
+         *   pproxyAddrs :
+         *     - 127.0.0.1:9613
+         *   proxyTimeoutMs : 200
+         *   clientRetry : 2
+         *   clientTimeoutMs : 300
+         *   poolSize : 100
+         *   pushIntervalMs : 300
+         *   batchSendThreadNum : 50
+         */
         final PushConfig pushConfig = ConfigManager.getConfig().getPushConfig();
 
         config.setCarreraProxyList(pushConfig.getPproxyAddrs());

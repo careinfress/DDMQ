@@ -39,6 +39,18 @@ import java.util.concurrent.TimeUnit;
 public class MqPullService implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(MqPullService.class);
 
+    /**
+     * pullConfig:
+     *   innerGroup : cg_R_test_chronos_inner_0_1
+     *   innerTopic : R_test_chronos_inner_0
+     *   cproxyAddrs : 127.0.0.1:9713 #分号分割
+     *   retryIntervalMs : 500
+     *   maxBatchSize : 200
+     *   timeoutMs : 3000
+     *   pullBatchItemNum : 10000
+     *   threadNum : 10
+     *   msgByteBaseLen : 1000
+     */
     private static final PullConfig PULL_CONFIG = ConfigManager.getConfig().getPullConfig();
     private static final Batcher BATCHER = Batcher.getInstance();
     private volatile boolean shouldStop = false;
@@ -57,11 +69,15 @@ public class MqPullService implements Runnable {
 
         CarreraConfig carreraConfig = new CarreraConfig();
         carreraConfig.setServers(server);
+        // cg_R_test_chronos_inner_0_1
         carreraConfig.setGroupId(PULL_CONFIG.getInnerGroup());
+        // 500
         carreraConfig.setRetryInterval(PULL_CONFIG.getRetryIntervalMs());
+        // 3000
         carreraConfig.setTimeout(PULL_CONFIG.getTimeoutMs());
+        // 200
         carreraConfig.setMaxBatchSize(PULL_CONFIG.getMaxBatchSize());
-
+        // 有多少个线程（threadNum）就创建多少个 SimpleCarreraConsumer
         carreraConsumer = new SimpleCarreraConsumer(carreraConfig);
         LOGGER.info("{} init carrera consumer, carreraConfig:{}", mqPullServiceName, carreraConfig);
     }

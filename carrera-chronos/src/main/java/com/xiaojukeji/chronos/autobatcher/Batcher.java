@@ -27,10 +27,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Batcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(Batcher.class);
-
+    // PULL_BATCH_ITEM_NUM = 10000
     private static final int PULL_BATCH_ITEM_NUM = ConfigManager.getConfig().getPullConfig().getPullBatchItemNum();
+    // MSG_BYTE_BASE_LEN = 1000
     private static final int MSG_BYTE_BASE_LEN = ConfigManager.getConfig().getPullConfig().getMsgByteBaseLen();
-
+    // 批量写入
     private WriteBatch wb = new WriteBatch();
     private volatile int itemNum = 0;
     private static volatile Batcher instance = null;
